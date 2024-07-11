@@ -34,6 +34,18 @@ parser.on('end', function () {
 // Open the file and pipe it into the parser
 fs.createReadStream(fileName).pipe(parser);
 
-app.get("*", (req, res) => res.sendStatus(200));
+
+router.get("/", async (req, res) => {
+    try {
+        return res.json({ status: 200, response: `Yes.` });
+    } catch (error) {
+        console.log(error);
+    }
+    return res.json({ status: 500, response: `Something went wrong while processing request.` });
+});
+app.use(router);
+
+app.get("*", (req, res) => res.sendStatus(404));
+
 app.listen(port);
 console.log("app runnin'")
